@@ -1,11 +1,13 @@
 
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
-import { changeInput, createTodo } from './../store/modules/todo';
+import { bindActionCreators } from 'redux';
+import { changeInput, createTodo, removeTodo, checkTodo } from './../store/modules/todo';
 
 // components
 
 import CreateForm from './../components/CreateForm';
+import TodoList from './../components/TodoList';
 
 class TodoContainer extends Component {
 
@@ -24,7 +26,7 @@ class TodoContainer extends Component {
     render() {
 
         const { changeInput, createTodo } = this;
-        const { list } = this.props;
+        const { list, removeTodo, checkTodo } = this.props;
 
         return (
             <Fragment>
@@ -32,6 +34,11 @@ class TodoContainer extends Component {
                     changeInput={changeInput}
                     createTodo={createTodo}
                     todoList={list}
+                />
+                <TodoList
+                    todoList={list}
+                    removeTodo={removeTodo}
+                    checkTodo={checkTodo}
                 />
             </Fragment>
         )
@@ -43,10 +50,7 @@ const mapStateToProps = ({ todo }) => ({
     list: todo.get('list'),
 })
 
-const mapDispatchToProps = dispatch => ({
-    changeInput: input => dispatch(changeInput(input)),
-    createTodo: input => dispatch(createTodo(input)),
-})
+const mapDispatchToProps = dispatch => bindActionCreators({ changeInput, createTodo, removeTodo, checkTodo }, dispatch)
 
 export default connect(
     mapStateToProps,

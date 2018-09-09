@@ -10,7 +10,7 @@ const REMOVE_TODO = 'todo/REMOVE_TODO';
 let create_id = 3;
 
 const changeInput = createAction(CHANGE_INPUT, input => input);
-const createTodo = createAction(CREATE_TODO, input => ({input, id: create_id++}));
+const createTodo = createAction(CREATE_TODO, input => ({ input, id: create_id++ }));
 const checkTodo = createAction(CHECK_TODO, id => id);
 const removeTodo = createAction(REMOVE_TODO, id => id);
 
@@ -43,12 +43,12 @@ const todo = handleActions(
         [CREATE_TODO]: (state, action) => state.update('list', list => list.push(
             Map({
                 id: action.payload.id,
-                name: action.payload.input,
+                item: action.payload.input,
                 checked: false,
             })
         )),
         [CHECK_TODO]: (state, action) => {
-            const index = state.get('list').findIndex(item => item.get('id' === action.payload));
+            const index = state.get('list').findIndex(item => item.get('id') === action.payload);
             return state.updateIn(['list', index, 'checked'], checked => !checked);
         },
         [REMOVE_TODO]: (state, action) => {
